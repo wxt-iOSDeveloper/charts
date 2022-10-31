@@ -648,15 +648,16 @@ class OrdinalAxis extends Axis<String> {
 /// Viewport to cover [dataSize] data points starting at [startingDomain] value.
 class OrdinalViewport {
   final String startingDomain;
+  final String endDomain;
   final int dataSize;
 
-  OrdinalViewport(this.startingDomain, this.dataSize);
+  OrdinalViewport(this.startingDomain, this.endDomain, this.dataSize);
 
   @override
   bool operator ==(Object other) {
     return other is OrdinalViewport &&
         startingDomain == other.startingDomain &&
-        dataSize == other.dataSize;
+        dataSize == other.dataSize && endDomain == other.endDomain;
   }
 
   @override
