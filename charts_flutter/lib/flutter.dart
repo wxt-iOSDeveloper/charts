@@ -37,6 +37,7 @@ export 'package:charts_common/common.dart'
         BarGroupingType,
         BarLabelAnchor,
         BarLabelDecorator,
+        BarLabelDecorator2,
         BarLabelPosition,
         BarLaneRendererConfig,
         BarRenderer,

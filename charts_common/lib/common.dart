@@ -22,6 +22,7 @@ export 'src/chart/bar/bar_label_decorator.dart'
         BarLabelPlacement,
         BarLabelPosition,
         BarLabelVerticalPosition;
+export 'src/chart/bar/bar_label_decorator2.dart';
 export 'src/chart/bar/bar_lane_renderer_config.dart' show BarLaneRendererConfig;
 export 'src/chart/bar/bar_renderer.dart'
     show BarRenderer, BarRendererElement, ImmutableBarRendererElement;

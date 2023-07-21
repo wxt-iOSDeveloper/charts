@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:ui' show TextAlign, TextDirection;
+import 'dart:ui' show FontWeight, TextAlign, TextDirection;
 import 'package:charts_common/common.dart' as common
     show
         MaxWidthStrategy,
@@ -152,6 +152,7 @@ class TextElement implements common.TextElement {
                 color: color,
                 fontSize: textStyle?.fontSize?.toDouble(),
                 fontFamily: textStyle?.fontFamily,
+                fontWeight: transFontWeight(textStyle?.fontWeight),
                 height: textStyle?.lineHeight)))
       ..textDirection = TextDirection.ltr
       // TODO Flip once textAlign works
@@ -182,5 +183,29 @@ class TextElement implements common.TextElement {
         baseline: baseline);
 
     _painterReady = true;
+  }
+
+  FontWeight transFontWeight(String? weight) {
+    switch (weight) {
+      case "100":
+        return FontWeight.w100;
+      case "200":
+        return FontWeight.w200;
+      case "300":
+        return FontWeight.w300;
+      case "400":
+        return FontWeight.w400;
+      case "500":
+        return FontWeight.w500;
+      case "600":
+        return FontWeight.w600;
+      case "700":
+        return FontWeight.w700;
+      case "800":
+        return FontWeight.w800;
+      case "900":
+        return FontWeight.w900;
+    }
+    return FontWeight.w400;
   }
 }
