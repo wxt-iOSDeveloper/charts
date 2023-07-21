@@ -61,9 +61,12 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
   /// Space before and after the label text.
   final int labelPadding;
 
+  final bool limitTextWidth;
+
   BarLabelDecorator({
     TextStyleSpec? insideLabelStyleSpec,
     TextStyleSpec? outsideLabelStyleSpec,
+    this.limitTextWidth = false,
     this.labelAnchor,
     this.labelPosition = _defaultLabelPosition,
     this.labelPlacement = _defaultLabelPlacement,
@@ -168,7 +171,7 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
         ..textStyle = calculatedLabelPosition == BarLabelPosition.inside
             ? datumInsideLabelStyle
             : datumOutsideLabelStyle
-        ..maxWidth = bounds.width
+        ..maxWidth = limitTextWidth ? bounds.width : null
         ..textDirection = rtl ? TextDirection.rtl : TextDirection.ltr);
 
       // Total label height depends on the label element's text style.
@@ -296,7 +299,7 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
         // calculatedLabelPosition == LabelPosition.outside ||
         // calculatedLabelPosition == LabelPosition.right
         labelElement.textStyle = datumOutsideLabelStyle;
-        labelElement.maxWidth = outsideBarWidth;
+        labelElement.maxWidth = limitTextWidth?outsideBarWidth:111111;
       }
 
       // Only calculate and draw label if there's actually space for the label.
