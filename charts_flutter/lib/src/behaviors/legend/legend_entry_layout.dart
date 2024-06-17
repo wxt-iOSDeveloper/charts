@@ -119,7 +119,7 @@ class SimpleLegendEntryLayout implements LegendEntryLayout {
     return this.runtimeType.hashCode;
   }
 
-  /// Convert the charts common TextStlyeSpec into a standard TextStyle, while
+  /// Convert the charts common TextStyleSpec into a standard TextStyle, while
   /// reducing the color opacity to 26% if the entry is hidden.
   ///
   /// For non-specified values, override the hidden text color to use the body 1
@@ -131,8 +131,8 @@ class SimpleLegendEntryLayout implements LegendEntryLayout {
         : null;
     if (isHidden) {
       // Use a default color for hidden legend entries if none is provided.
-      color ??= Theme.of(context).textTheme.bodyText2!.color;
-      color = color!.withOpacity(0.26);
+      color ??= Theme.of(context).primaryColor;
+      color = color.withOpacity(0.26);
     }
 
     return new TextStyle(

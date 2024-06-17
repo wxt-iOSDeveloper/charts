@@ -1,4 +1,3 @@
-// @dart=2.9
 
 // Copyright 2018 the Charts project authors. Please see the AUTHORS file
 // for details.
@@ -40,7 +39,7 @@ class FakeCartesianRenderer extends BaseCartesianRenderer {
     selectOverlappingPoints = false,
     selectExactEventLocation = false,
   }) =>
-      null;
+      [];
 
   @override
   void paint(ChartCanvas canvas, double animationPercent) {}
@@ -49,7 +48,7 @@ class FakeCartesianRenderer extends BaseCartesianRenderer {
   void update(List<ImmutableSeries> seriesList, bool isAnimating) {}
 
   @override
-  SymbolRenderer get symbolRenderer => null;
+  SymbolRenderer get symbolRenderer => LineSymbolRenderer(isSolid: false);
 
   @override
   DatumDetails addPositionToDetailsForSeriesDatum(
@@ -59,10 +58,10 @@ class FakeCartesianRenderer extends BaseCartesianRenderer {
   }
 }
 
-class MockAxis extends Mock implements Axis {}
+class MockAxis extends Mock implements Axis<int> {}
 
 void main() {
-  BaseCartesianRenderer renderer;
+  late BaseCartesianRenderer renderer;
 
   setUp(() {
     renderer = FakeCartesianRenderer();
@@ -81,7 +80,7 @@ void main() {
       when(axis.compareDomainValueToViewport(5)).thenReturn(1);
       when(axis.compareDomainValueToViewport(6)).thenReturn(1);
 
-      final start = renderer.findNearestViewportStart(axis, domainFn, data);
+      final start = renderer.findNearestViewportStart<int>(axis, domainFn, data);
 
       expect(start, equals(2));
     });
