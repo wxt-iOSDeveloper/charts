@@ -1,4 +1,3 @@
-// @dart=2.9
 
 // Copyright 2018 the Charts project authors. Please see the AUTHORS file
 // for details.
@@ -62,19 +61,19 @@ class FakeGraphicsFactory extends GraphicsFactory {
 /// Stores [TextStyle] properties for test to verify.
 class FakeTextStyle implements TextStyle {
   @override
-  Color color;
+  Color? color;
 
   @override
-  int fontSize;
+  String? fontFamily;
 
   @override
-  String fontFamily;
+  int? fontSize;
 
   @override
-  double lineHeight;
+  String? fontWeight;
 
   @override
-  String fontWeight;
+  double? lineHeight;
 }
 
 /// Fake [TextElement] which returns text length as [horizontalSliceWidth].
@@ -85,26 +84,26 @@ class FakeTextElement implements TextElement {
   final String text;
 
   @override
-  TextStyle textStyle;
+  TextStyle? textStyle;
 
   @override
-  int maxWidth;
+  int? maxWidth;
 
   @override
-  MaxWidthStrategy maxWidthStrategy;
+  MaxWidthStrategy? maxWidthStrategy;
 
   @override
-  TextDirection textDirection;
+  TextDirection textDirection = TextDirection.ltr;
 
-  double opacity;
+  double? opacity;
 
   FakeTextElement(this.text);
 
   @override
   TextMeasurement get measurement => TextMeasurement(
       horizontalSliceWidth: text.length.toDouble(),
-      verticalSliceWidth: textStyle.fontSize.toDouble(),
-      baseline: textStyle.fontSize.toDouble());
+      verticalSliceWidth: textStyle!.fontSize!.toDouble(),
+      baseline: textStyle!.fontSize!.toDouble());
 }
 
 class MockLinePaint extends Mock implements LineStyle {}
@@ -112,7 +111,7 @@ class MockLinePaint extends Mock implements LineStyle {}
 class FakeBarRendererElement implements ImmutableBarRendererElement<String> {
   final _series = MockImmutableSeries<String>();
   final AccessorFn<String> labelAccessor;
-  final AccessorFn<num> measureFn;
+  final AccessorFn<num>? measureFn;
   final List<String> data;
 
   @override
@@ -122,7 +121,7 @@ class FakeBarRendererElement implements ImmutableBarRendererElement<String> {
   final Rectangle<int> bounds;
 
   @override
-  int index;
+  int? index;
 
   FakeBarRendererElement(this.datum, this.bounds, this.labelAccessor, this.data,
       {this.measureFn}) {

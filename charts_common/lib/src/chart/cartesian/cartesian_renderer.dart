@@ -166,7 +166,7 @@ abstract class BaseCartesianRenderer<D> extends BaseSeriesRenderer<D>
   }
 
   @visibleForTesting
-  int findNearestViewportStart(
+  int findNearestViewportStart<D>(
       Axis<D> domainAxis, AccessorFn<D> domainFn, List<Object?> data) {
     assert(data.isNotEmpty);
 

@@ -1,4 +1,4 @@
-// @dart=2.9
+// @dart=2.12
 
 // Copyright 2018 the Charts project authors. Please see the AUTHORS file
 // for details.
@@ -44,19 +44,19 @@ class FakeGraphicsFactory extends GraphicsFactory {
 /// Stores [TextStyle] properties for test to verify.
 class FakeTextStyle implements TextStyle {
   @override
-  Color color;
+  Color? color;
 
   @override
-  int fontSize;
+  int? fontSize;
 
   @override
-  String fontFamily;
+  String? fontFamily;
 
   @override
-  String fontWeight;
+  String? fontWeight;
 
   @override
-  double lineHeight;
+  double? lineHeight;
 }
 
 /// Fake [TextElement] which returns text length as [horizontalSliceWidth].
@@ -71,12 +71,12 @@ class FakeTextElement implements TextElement {
       var width = measureTextWidth(_text);
       var ellipsis = '...';
       var ellipsisWidth = measureTextWidth(ellipsis);
-      if (width <= maxWidth || width <= ellipsisWidth) {
+      if (width <= maxWidth! || width <= ellipsisWidth) {
         return _text;
       } else {
         var len = _text.length;
         var ellipsizedText = _text;
-        while (width >= maxWidth - ellipsisWidth && len-- > 0) {
+        while (width >= maxWidth! - ellipsisWidth && len-- > 0) {
           ellipsizedText = ellipsizedText.substring(0, len);
           width = measureTextWidth(ellipsizedText);
         }
@@ -87,48 +87,52 @@ class FakeTextElement implements TextElement {
   }
 
   @override
-  TextStyle textStyle;
+  TextStyle? textStyle;
 
   @override
-  int maxWidth;
+  int? maxWidth;
 
   @override
-  MaxWidthStrategy maxWidthStrategy;
+  MaxWidthStrategy? maxWidthStrategy;
 
   @override
-  TextDirection textDirection;
+  TextDirection textDirection = TextDirection.ltr;
 
-  double opacity;
+  double? opacity;
 
   FakeTextElement(this._text);
 
   @override
-  TextMeasurement get measurement => TextMeasurement(
-      horizontalSliceWidth: _text.length.toDouble(),
-      verticalSliceWidth: textStyle.fontSize.toDouble(),
-      baseline: textStyle.fontSize.toDouble());
+  TextMeasurement get measurement =>
+      TextMeasurement(
+          horizontalSliceWidth: _text.length.toDouble(),
+          verticalSliceWidth: textStyle!.fontSize!.toDouble(),
+          baseline: textStyle!.fontSize!.toDouble());
 
   double measureTextWidth(String text) {
     return text.length.toDouble();
   }
 }
 
-class MockLinePaint extends Mock implements LineStyle {}
+class MockLinePaint extends
+
+Mock implements
+LineStyle {}
 
 const _defaultFontSize = 12;
 const _defaultLineHeight = 12.0;
 
 void main() {
-  GraphicsFactory graphicsFactory;
-  num maxWidth;
-  num maxHeight;
-  FakeTextStyle textStyle;
+  GraphicsFactory? graphicsFactory;
+  num? maxWidth;
+  num? maxHeight;
+  FakeTextStyle? textStyle;
 
   setUpAll(() {
     graphicsFactory = FakeGraphicsFactory();
     maxWidth = 10;
     maxHeight = _defaultLineHeight * 2;
-    textStyle = FakeTextStyle()
+    textStyle  = FakeTextStyle()
       ..color = Color.black
       ..fontSize = _defaultFontSize;
   });
@@ -136,10 +140,11 @@ void main() {
   group('tree map', () {
     test(
         'when label can fit in a single line, enable allowLabelOverflow, '
-        'disable multiline, return full text', () {
-      final textElement = FakeTextElement('text')..textStyle = textStyle;
+            'disable multiline, return full text', () {
+      final textElement = FakeTextElement('text')
+        ..textStyle = textStyle;
       final textElements = wrapLabelLines(
-          textElement, graphicsFactory, maxWidth, maxHeight,
+          textElement, graphicsFactory!, maxWidth!, maxHeight!,
           allowLabelOverflow: true, multiline: false);
 
       expect(textElements, hasLength(1));
@@ -148,11 +153,11 @@ void main() {
 
     test(
         'when label can not fit in a single line, enable allowLabelOverflow, '
-        'disable multiline, return ellipsized text', () {
+            'disable multiline, return ellipsized text', () {
       final textElement = FakeTextElement('texttexttexttext')
-        ..textStyle = textStyle;
+        ..textStyle  = textStyle;
       final textElements = wrapLabelLines(
-          textElement, graphicsFactory, maxWidth, maxHeight,
+          textElement, graphicsFactory!, maxWidth!, maxHeight!,
           allowLabelOverflow: true, multiline: false);
 
       expect(textElements, hasLength(1));
@@ -161,11 +166,11 @@ void main() {
 
     test(
         'when label can not fit in a single line, enable allowLabelOverflow '
-        'and multiline, return two textElements', () {
+            'and multiline, return two textElements', () {
       final textElement = FakeTextElement('texttexttexttext')
-        ..textStyle = textStyle;
+        ..textStyle  = textStyle;
       final textElements = wrapLabelLines(
-          textElement, graphicsFactory, maxWidth, maxHeight,
+          textElement, graphicsFactory!, maxWidth!, maxHeight!,
           allowLabelOverflow: true, multiline: true);
 
       expect(textElements, hasLength(2));
@@ -175,12 +180,12 @@ void main() {
 
     test(
         'when both label and ellpisis can not fit in a single line, disable '
-        'allowLabelOverflow and multiline, return empty', () {
+            'allowLabelOverflow and multiline, return empty', () {
       final maxWidth = 2;
       final textElement = FakeTextElement('texttexttexttext')
-        ..textStyle = textStyle;
+        ..textStyle  = textStyle;
       final textElements = wrapLabelLines(
-          textElement, graphicsFactory, maxWidth, maxHeight,
+          textElement, graphicsFactory!, maxWidth, maxHeight!,
           allowLabelOverflow: false, multiline: false);
 
       expect(textElements, isEmpty);
@@ -188,11 +193,12 @@ void main() {
 
     test(
         'when both label and ellpisis can not fit in a single line, disable '
-        'allowLabelOverflow but enable multiline, return textElements', () {
+            'allowLabelOverflow but enable multiline, return textElements', () {
       final maxWidth = 2;
-      final textElement = FakeTextElement('t ex text')..textStyle = textStyle;
+      final textElement = FakeTextElement('t ex text')
+        ..textStyle  = textStyle;
       final textElements = wrapLabelLines(
-          textElement, graphicsFactory, maxWidth, maxHeight,
+          textElement, graphicsFactory!, maxWidth, maxHeight!,
           allowLabelOverflow: false, multiline: true);
 
       expect(textElements, hasLength(2));
